@@ -14,6 +14,19 @@
 #     name: julia-1.12
 # ---
 
+# %%
+import Pkg
+
+project_dir = let dir = pwd()
+    while !isfile(joinpath(dir, "Project.toml")) && dirname(dir) != dir
+        dir = dirname(dir)
+    end
+    isfile(joinpath(dir, "Project.toml")) || error("No se encontró Project.toml; abre el notebook desde el repositorio.")
+    dir
+end
+
+Pkg.activate(project_dir)
+
 # %% [markdown]
 # # Resultado Analítico
 
