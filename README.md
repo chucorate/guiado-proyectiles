@@ -22,10 +22,11 @@
    Pkg.instantiate()
    ```
 
-
 ## Uso
 
-wip
+Los notebooks de `src/modelos/` usan el kernel de Julia de Jupyter. La primera celda activa automáticamente el entorno de este repositorio.
+
+Si todavía no están instaladas las dependencias, ejecutar una vez `Pkg.instantiate()` desde Julia, iniciada en la carpeta del repositorio con `julia --project=.` (ver Instalación).
 
 ## Documentación
 
@@ -33,11 +34,10 @@ Para detalles sobre el modelamiento, ver `docs/`.
 
 # Planeación
 
-- [ ] Obtener modelamiento del problema general.
-- [ ] Programar el caso lineal con un proyectil y target.
-- [ ] Programar el caso no lineal con un proyectil y target.
+- [x] Obtener modelamiento del problema general.
+- [x] Programar el caso lineal con un proyectil y target.
+- [x] Programar el caso no lineal con un proyectil y target.
 - [ ] Estudiar la controlabilidad, observabilidad y estabilidad de los problemas.
 - [ ] Realizar simulaciones, comparando distintos métodos numéricos.
 - [ ] Programar el caso con 2 proyectiles.
 - [ ] Programar el caso con $N$ proyectiles.
-
