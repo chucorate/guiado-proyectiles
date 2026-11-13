@@ -44,7 +44,7 @@ $$
 
 Estas dinámicas salen de asumir que los proyectiles son independientes entre sí pero condicionados a la trayectoria del objetivo, por lo que podemos aplicar el modelamiento general a cada uno de estos. Eso sí, la trayectoria del objetivo sigue siendo una sola.
 
-## Problema de Control
+## Problema de control
 
 Consideramos el sistema obtenido anteriormente, con estado
 
