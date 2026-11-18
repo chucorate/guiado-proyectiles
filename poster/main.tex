@@ -1,0 +1,68 @@
+% CREACIÓN DEL DOCUMENTO
+\pdfminorversion=7
+\documentclass[
+	spanish, % Idioma: spanish, english, etc.
+	final,
+	xcolor={dvipsnames,table}
+]{beamer}
+
+% INFORMACIÓN DEL DOCUMENTO
+\def\documenttitle {Control Optimo en guiado de Proyectiles}
+
+% IMPORTACIÓN DEL TEMPLATE
+\input{template}
+
+\newlength{\logoleftimgw}
+
+% Logo izquierdo con leyenda
+%	#1	Parámetros de la imagen (height=..., width=...)
+%	#2	Archivo de imagen
+%	#3	Texto de la leyenda
+\newcommand{\logoleftcaption}[3]{%
+	\settowidth{\logoleftimgw}{\includegraphics[#1]{#2}}%
+	\def\insertlogoleft{%
+		\parbox{\logoleftimgw}{%
+			\centering
+			\includegraphics[#1]{#2}\\[1ex]
+			{\fontsize{26pt}{30pt}\selectfont\color{mitred}#3\par}%
+		}%
+	}%
+	\settowidth{\logoleftwidth}{\insertlogoleft}%
+	\addtolength{\logoleftwidth}{10ex}%
+	\setlength{\maxlogowidth}{\maxof{\logoleftwidth}{\logorightwidth}}%
+}
+
+% CONFIGURA BEAMER
+\author{
+	Matías Olate R.,
+	Santiago Avalloni G.
+}
+\institute[shortinst]{
+	Universidad de Chile
+}
+
+\logoleftcaption{height=5cm}{qr.png}{Referencia}
+\logoright{height=5cm}{logo.pdf}
+
+\footercontent{
+	\href{https://github.com/chucorate/guiado-proyectiles}{https://github.com/chucorate/guiado-proyectiles} \hfill
+	Facultad de Ciencias Físicas y Matemáticas, Universidad de Chile
+}
+
+% INICIO DE LAS PÁGINAS
+\begin{document}
+
+% CONFIGURACIÓN DE PÁGINA Y ENCABEZADOS
+\templatePagecfg
+
+% CONFIGURACIONES FINALES
+\templateFinalcfg
+
+% ======================= INICIO DEL DOCUMENTO =======================
+
+\begin{poster}
+	\input{example} % Ejemplo, se puede borrar
+\end{poster}
+
+% FIN DEL DOCUMENTO
+\end{document}

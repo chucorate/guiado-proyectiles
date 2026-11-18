@@ -1,6 +1,6 @@
-## Extensión general a múltiples proyectiles
+    ## Extensión general a múltiples proyectiles
 
-La extensión está basada en el [planteamiento general](/docs/modelamiento.md). Consideremos ahora un sistema compuesto por $N$ proyectiles $M_i$, con $i\in I:=\{1,\ldots,N\}$, y un único objetivo $T$. Supondremos que el objetivo sigue una trayectoria independiente de los proyectiles y que estos no interactúan directamente entre sí.
+La extensión está basada en el [planteamiento general](/docs/00_modelamiento.md). Consideremos ahora un sistema compuesto por $N$ proyectiles $M_i$, con $i\in I:=\{1,\ldots,N\}$, y un único objetivo $T$. Supondremos que el objetivo sigue una trayectoria independiente de los proyectiles y que estos no interactúan directamente entre sí.
 
 Denotemos por $\vec{x}_{M_i}$ y $\vec{v}_{M_i}$ la posición y velocidad del $i$-ésimo proyectil, respectivamente. Análogamente al modelo general, definimos las variables relativas
 
@@ -68,7 +68,7 @@ $$
 \mathcal T=\{x\in\mathbb R^{4N+4}:\lVert\vec r_i\rVert^2\leq\varepsilon^2,\quad\forall i\in I\}.
 $$
 
-Cada trayectoria se considera en todo el intervalo $[0,t_f]$, incluso si alguno de los proyectiles entra antes en la región de tolerancia. Al tiempo $t_f$, todos deben estar dentro de dicha región, aunque algunos pueden estar en su interior y otros en su frontera. Las velocidades y orientaciones finales quedan libres igual que en el [modelamiento no lineal](/docs/modelo_no_lineal.md).
+Cada trayectoria se considera en todo el intervalo $[0,t_f]$, incluso si alguno de los proyectiles entra antes en la región de tolerancia. Al tiempo $t_f$, todos deben estar dentro de dicha región, aunque algunos pueden estar en su interior y otros en su frontera. Las velocidades y orientaciones finales quedan libres igual que en el [modelamiento no lineal](/docs/01_modelo_no_lineal.md).
 
 ### Problema de Bolza a tiempo final libre
 

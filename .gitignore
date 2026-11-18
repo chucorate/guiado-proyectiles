@@ -30,3 +30,9 @@ JuliaLocalPreferences.toml
 
 # Conda environment and metadata created in the project directory by the CondaPkg package
 .CondaPkg/
+
+# Archivos de creación del poster con TexLive
+poster/*
+!poster/*.tex
+!poster/*.pdf
+!poster/*.bib

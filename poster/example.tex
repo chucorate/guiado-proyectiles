@@ -1,0 +1,184 @@
+% ============================================================
+% BLOQUE 1 — Introducción (columna izquierda)
+% ============================================================
+\begin{block}{Introducción}
+	El guiado de proyectiles es un problema central en ingeniería y defensa. 
+	En este trabajo se aborda desde la \textbf{teoría de control óptimo}, 
+	lo que permite derivar las leyes de guiado clásicas (Navegación Proporcional, 
+	PLC) como casos límite de problemas variacionales, y extenderlas a escenarios 
+	más ricos: objetivos móviles, ángulos iniciales arbitrarios y coordinación 
+	de múltiples proyectiles.
+
+	\vspace{0.2cm}
+	\textbf{Herramientas}: Principio de Pontryagin, ecuaciones de Riccati, 
+	método de tiro (shooting) y simulación con \texttt{DifferentialEquations.jl}.
+
+	% \insertimage{intro-foto}{width=0.7\colwidth}{Motivación: persecución target-proyectil.}
+\end{block}
+
+% ============================================================
+% BLOQUE 2 — Modelo lineal (columna izquierda)
+% ============================================================
+\begin{block}{Modelo Lineal (PLC)}
+	\begin{exampleblock}{}
+	Se asume una trayectoria \textit{near-miss}: ángulos pequeños, velocidad de 
+	acercamiento $V_c=-\dot R>0$ y aceleración solo en el eje perpendicular a la 
+	\textit{Line of Sight} (LOS). Definiendo $z=(r_y,v_y)$, la dinámica se reduce a
+	
+	$$
+	\dot z=\begin{pmatrix}0&1\\0&0\end{pmatrix}z
+	+\begin{pmatrix}0\\-1\end{pmatrix}u,
+	\qquad z(0)=\begin{pmatrix}r_{y,0}\\v_{y,0}\end{pmatrix}.
+	$$
+	
+	El tiempo de encuentro es $t_f=-r_{x,0}/v_{x,0}$, y con 
+	$t_{\mathrm{go}}=t_f-t$ el problema es
+	
+	$$
+	\min_{u}\; J(u)=q_f\,r_y(t_f)^2+\int_0^{t_f}u^2(t)\,dt.
+	$$
+	
+	Vía Riccati y tomando $q_f\to\infty$ se recupera la \textbf{ley PLC clásica}:
+	
+	$$
+	\boxed{\;\vphantom{\frac{\frac{A}{B}}{\frac{C}{D}}}
+	u_\infty^*(t)=\frac{3}{t_{\mathrm{go}}^2}
+	\big[r_y(t)+v_y(t)\,t_{\mathrm{go}}\big]\;}
+	$$
+	\end{exampleblock}
+	{\def\marginimagetop{-2}
+		\insertimage{lineal/colision.png}{width=\colwidth}{Trayectoria linealizada: desviación $r_y(t)$ corregida por PLC.}
+	}
+
+	%!TODO:
+	%	- Agrandar tamaño estrella
+	%	- Titulo grafico
+	%	- Aumentar grosor lineas 
+	%	- Revisar label
+	
+\end{block}
+
+\begin{block}{Modelo No Lineal}
+	Aquí se trabaja con un objetivo fijo ($\vec v_T=\vec a_T=0$), geometría exacta. En coordenadas 
+	$(R,L)$ con $L=\theta_M-\lambda$ la dinámica relativa es:
+	
+	\vspace{-0.9cm}
+	$$
+	\begin{aligned}
+	\dot R&= -V_M\cos L, &\quad& R(0)=R_0,\\
+	\dot L&= \frac{u}{V_M}\cos L+\frac{V_M}{R}\sin L, &\quad& L(0)=L_0.
+	\end{aligned}
+	$$
+
+	\vspace{1.5cm}
+	
+	\begin{exampleblock}{}
+	Con costo $\;\min J(u,t_f)=\int_0^{t_f}\!\big(\tfrac{\alpha}{2}u^2+\beta\big)dt\;$ 
+	y $t_f$ libre, \textbf{Pontryagin} da el control óptimo
+	$$
+	\boxed{\;\vphantom{\frac{\frac{A}{B}}{\frac{C}{D}}}
+	u(t)=\operatorname{proj}_{[-u_{\max},u_{\max}]}
+	\!\left(-\frac{p_\theta(t)\,\cos L}{\alpha V_M}\right)\;}
+	$$
+	con coestado $p_\theta$ y condición de transversalidad en $t_f$:
+	$$
+	\Theta(t_f)=0,\qquad p_x(t_f)=2\nu r_x(t_f),\quad p_y(t_f)=2\nu r_y(t_f),\quad p_\theta(t_f)=0.
+	$$
+	Para $\theta_M(0)=0$ la solución es analítica: $u^*\equiv0$ y 
+	$t_f^*=(R_0-\varepsilon)/V_M$.
+	\end{exampleblock}
+	{\def\marginimagetop{-2}
+		\insertimage{no_lineal/comparacion.png}{width=0.85\colwidth}{Soluciones numericas comparadas para distintos ángulos (Reflejado)}
+	}
+\end{block}
+
+% ============================================================
+% CREA UNA NUEVA COLUMNA
+% ============================================================
+\separatorcolumn
+
+\begin{block}{Modelo Dos Proyectiles}
+	Volviendo al modelo lineal, se busca que dos proyectiles con la misma rapidez $V_M$ intercepten un objetivo 
+	común \textbf{simultáneamente} y con un ángulo de llegada deseado $\theta_d$. 
+	Se vuelve a la aproximación lineal (un solo eje perpendicular a la LOS) para 
+	cada proyectil $i\in\{1,2\}$ se sigue la dinámica descrita en la sección anterior.
+
+	
+	El acoplamiento aparece en las condiciones terminales simultáneas:
+
+	\vspace{-0.9cm}
+	$$
+	r_{y,i}(t_f)=0,\qquad \theta_{M,i}(t_f)=\theta_d,\qquad i=1,2.
+	$$
+
+	Al estar asumiendo el \textbf{modelo lineal} para la obtención del control óptimo un \textbf{angulo 
+	mayor} es cada vez \textbf{menos preciso.} 
+
+	{\def\marginimagetop{-1}
+		\insertimage{lineal_dos_proyectiles/comparacion_angulos_analitica.png}{width=0.9\colwidth}{Trayectorias de la solución analitica para distintos ángulos de entrada}
+	}
+	%!TODO:
+	%	- Colores
+	%	- Leyenda interna
+	%	- Leyenda completa
+	%	- Posición theta's
+
+\end{block}
+
+\begin{block}{Modelo Multiproyectil}
+	Extensión a $N$ proyectiles $M_i$, $i\in I=\{1,\dots,N\}$, que deben 
+	alcanzar un mismo objetivo $T$ en un \textbf{tiempo final común} $t_f$, 
+	con tolerancia $R_i(t_f)=\lVert\vec r_i(t_f)\rVert\le\varepsilon$. 
+	Los proyectiles \textbf{no interactúan entre sí}; solo comparten el 
+	objetivo y el instante de llegada. La dinámica relativa de cada uno es
+
+	\vspace{-1cm}
+	$$
+	\dot{\vec r}_i=\vec v_i,\qquad
+	\dot{\vec v}_i=a_TJ\hat v_T-u_i\langle\hat r_i,\hat v_{M_i}\rangle J\hat v_{M_i}.
+	$$
+
+	El acoplamiento aparece sólamente en las $N$ condiciones terminales 
+	simultáneas
+	
+	\vspace{-0.9cm}
+	$$
+	h_i(x(t_f))\le0,\qquad h_i(x):=r_{x_i}^2+r_{y_i}^2-\varepsilon^2,
+	\quad\forall i\in I.
+	$$
+
+	\vspace{0.5cm}
+	\begin{exampleblock}{}
+	Para objetivo estático, basta $(r_{x_i},r_{y_i},\theta_{M_i})$ 
+	y la dinámica se desacopla:
+
+	\vspace{-0.9cm}
+	$$
+	\dot r_{x_i}=-V_{M_i}\cos\theta_{M_i},\quad
+	\dot r_{y_i}=-V_{M_i}\sin\theta_{M_i},\quad
+	\dot\theta_{M_i}=\frac{u_i}{V_{M_i}}.
+	$$
+
+	Para evitar llegadas anticipadas se añaden \textbf{holguras} 
+	$0\le s_i\le\varepsilon^2$ con la restricción de trayectoria
+	$r_{x_i}^2+r_{y_i}^2+s_i\ge\varepsilon^2$, y el costo instantáneo pasa a ser
+	
+	\vspace{-0.9cm}
+	$$
+	\boxed{\;\vphantom{\frac{\frac{A}{B}}{\frac{C}{D}}}\;
+	\ell(x,w)=\beta+\sum_{i\in I}\!\Big(\tfrac{\alpha}{2}u_i^2+\gamma s_i\Big)\;}
+	$$
+	El problema de Bolza a tiempo final libre queda
+
+	$$
+	\min_{\substack{t_f>0\\w=(u,s)}}\;
+	J(w,t_f)=\int_0^{t_f}\!\Big(\beta+\frac{\alpha}{2}\sum_{i\in I}u_i^2
+	+\gamma\sum_{i\in I}s_i\Big)dt.
+	$$
+	\end{exampleblock}
+
+	{\def\marginimagetop{-2}
+		\insertimage{multiproyectil/trayectorias_N8.png}{width=1.1\colwidth}{Trayectorias de 8 proyectiles con condición de llegada simultanea}
+	}
+
+\end{block}

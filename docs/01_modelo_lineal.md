@@ -75,7 +75,7 @@ E(t_f) &= -Q
 $$
 
 Ahora, basándonos en el texto [Modern Homing Missile Guidance Theory and
-Techniques, Johns Hopkins APL Technical Digest]() para este problema se da una solución analítica del control dada por
+Techniques, Johns Hopkins APL Technical Digest](https://www.semanticscholar.org/paper/Modern-Homing-Missile-Guidance-Theory-and-Palumbo-Blauwkamp/7b7a81717ed47697ecfa8cc76a3614ecc2cebf6f) para este problema se da una solución analítica del control dada por
 
 $$
 u_{q_f}(t) = \frac{3}{t^2_\mathrm{go}}\left[ \frac{r_{y,t}+v_{y,t}\cdot t_\mathrm{go}}{1+\frac{3}{q_ft^3_{\mathrm{go}}}} \right]
