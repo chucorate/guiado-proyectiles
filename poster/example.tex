@@ -4,14 +4,13 @@
 \begin{block}{Introducción}
 	El guiado de proyectiles es un problema central en ingeniería y defensa. 
 	En este trabajo se aborda desde la \textbf{teoría de control óptimo}, 
-	lo que permite derivar las leyes de guiado clásicas (Navegación Proporcional, 
-	PLC) como casos límite de problemas variacionales, y extenderlas a escenarios 
+	lo que permite derivar las leyes de guiado clásicas y extenderlas a escenarios
 	más ricos: objetivos móviles, ángulos iniciales arbitrarios y coordinación 
 	de múltiples proyectiles.
 
 	\vspace{0.2cm}
-	\textbf{Herramientas}: Principio de Pontryagin, ecuaciones de Riccati, 
-	método de tiro (shooting) y simulación con \texttt{DifferentialEquations.jl}.
+	\textbf{Herramientas}: Principio de Pontryagin, ecuaciones de Riccati,
+	discretización directa con \texttt{OptimalControl.jl} e Ipopt y simulación con \texttt{DifferentialEquations.jl}.
 
 	% \insertimage{intro-foto}{width=0.7\colwidth}{Motivación: persecución target-proyectil.}
 \end{block}
@@ -47,7 +46,7 @@
 	$$
 	\end{exampleblock}
 	{\def\marginimagetop{-2}
-		\insertimage{lineal/colision.png}{width=\colwidth}{Trayectoria linealizada: desviación $r_y(t)$ corregida por PLC.}
+		\insertimage{lineal/colision.png}{width=\colwidth}{Trayectorias del objetivo y del proyectil bajo control PLC. La estrella indica la intercepción.}
 	}
 
 	%!TODO:
@@ -59,7 +58,7 @@
 \end{block}
 
 \begin{block}{Modelo No Lineal}
-	Aquí se trabaja con un objetivo fijo ($\vec v_T=\vec a_T=0$), geometría exacta. En coordenadas 
+	Se considera un objetivo fijo ($\vec v_T=\vec a_T=0$) y se utiliza la geometría exacta. En coordenadas
 	$(R,L)$ con $L=\theta_M-\lambda$ la dinámica relativa es:
 	
 	\vspace{-0.9cm}
@@ -73,7 +72,7 @@
 	\vspace{1.5cm}
 	
 	\begin{exampleblock}{}
-	Con costo $\;\min J(u,t_f)=\int_0^{t_f}\!\big(\tfrac{\alpha}{2}u^2+\beta\big)dt\;$ 
+	Con costo $\;J(u,t_f)=\int_0^{t_f}\!\big(\tfrac{\alpha}{2}u^2+\beta\big)dt\;$
 	y $t_f$ libre, \textbf{Pontryagin} da el control óptimo
 	$$
 	\boxed{\;\vphantom{\frac{\frac{A}{B}}{\frac{C}{D}}}
@@ -84,11 +83,11 @@
 	$$
 	\Theta(t_f)=0,\qquad p_x(t_f)=2\nu r_x(t_f),\quad p_y(t_f)=2\nu r_y(t_f),\quad p_\theta(t_f)=0.
 	$$
-	Para $\theta_M(0)=0$ la solución es analítica: $u^*\equiv0$ y 
+	Si inicialmente apunta al objetivo ($L_0=0$, $R_0>\varepsilon$), la solución es $u^*\equiv0$ y
 	$t_f^*=(R_0-\varepsilon)/V_M$.
 	\end{exampleblock}
 	{\def\marginimagetop{-2}
-		\insertimage{no_lineal/comparacion.png}{width=0.85\colwidth}{Soluciones numericas comparadas para distintos ángulos (Reflejado)}
+		\insertimage{no_lineal/comparacion.png}{width=0.85\colwidth}{Soluciones numéricas comparadas para distintos ángulos (panel derecho reflejado).}
 	}
 \end{block}
 
@@ -97,25 +96,26 @@
 % ============================================================
 \separatorcolumn
 
-\begin{block}{Modelo Dos Proyectiles}
-	Volviendo al modelo lineal, se busca que dos proyectiles con la misma rapidez $V_M$ intercepten un objetivo 
-	común \textbf{simultáneamente} y con un ángulo de llegada deseado $\theta_d$. 
-	Se vuelve a la aproximación lineal (un solo eje perpendicular a la LOS) para 
-	cada proyectil $i\in\{1,2\}$ se sigue la dinámica descrita en la sección anterior.
-
-	
-	El acoplamiento aparece en las condiciones terminales simultáneas:
+\begin{block}{Modelo de Dos Proyectiles}
+	Dos proyectiles con rapidez $V_M$ buscan interceptar un objetivo en un
+	\textbf{tiempo final común} $t_f$, con \textbf{ángulo relativo de llegada} $\theta_d$.
+	Se aplica una aproximación lineal para cada proyectil $i\in\{1,2\}$ y se introduce
+	el acoplamiento en el costo terminal, en donde se penalizan las desviaciones del ángulo de llegada:
 
 	\vspace{-0.9cm}
 	$$
-	r_{y,i}(t_f)=0,\qquad \theta_{M,i}(t_f)=\theta_d,\qquad i=1,2.
+	\begin{aligned}
+	\min_{u_1,u_2}\;J&=\frac12\int_0^{t_f}(u_1^2+u_2^2)\,dt
+	+\frac b2\sum_{i=1}^2 y_i(t_f)^2\\
+	&\quad+\frac c2\big[\dot y_1(t_f)-\dot y_2(t_f)-V_M\theta_d\big]^2,
+	\qquad b,c>0.
+	\end{aligned}
 	$$
 
-	Al estar asumiendo el \textbf{modelo lineal} para la obtención del control óptimo un \textbf{angulo 
-	mayor} es cada vez \textbf{menos preciso.} 
+	Al estar asumiendo el \textbf{modelo lineal} para la obtención del control óptimo, la aproximación angular pierde precisión al aumentar $\theta_d$.
 
 	{\def\marginimagetop{-1}
-		\insertimage{lineal_dos_proyectiles/comparacion_angulos_analitica.png}{width=0.9\colwidth}{Trayectorias de la solución analitica para distintos ángulos de entrada}
+		\insertimage{lineal_dos_proyectiles/comparacion_angulos_analitica.png}{width=0.9\colwidth}{Trayectorias de la solución analítica para distintos ángulos de entrada.}
 	}
 	%!TODO:
 	%	- Colores
@@ -138,8 +138,8 @@
 	\dot{\vec v}_i=a_TJ\hat v_T-u_i\langle\hat r_i,\hat v_{M_i}\rangle J\hat v_{M_i}.
 	$$
 
-	El acoplamiento aparece sólamente en las $N$ condiciones terminales 
-	simultáneas
+	El acoplamiento aparece solamente en las $N$ condiciones terminales
+	simultáneas:
 	
 	\vspace{-0.9cm}
 	$$
@@ -149,8 +149,8 @@
 
 	\vspace{0.5cm}
 	\begin{exampleblock}{}
-	Para objetivo estático, basta $(r_{x_i},r_{y_i},\theta_{M_i})$ 
-	y la dinámica se desacopla:
+	Para objetivo estático, se usa la \textbf{aceleración normal a la velocidad}
+	como control $u_i$. Con estado $(r_{x_i},r_{y_i},\theta_{M_i})$, la dinámica es:
 
 	\vspace{-0.9cm}
 	$$
@@ -159,7 +159,7 @@
 	\dot\theta_{M_i}=\frac{u_i}{V_{M_i}}.
 	$$
 
-	Para evitar llegadas anticipadas se añaden \textbf{holguras} 
+	Para penalizar llegadas anticipadas se añaden \textbf{holguras}
 	$0\le s_i\le\varepsilon^2$ con la restricción de trayectoria
 	$r_{x_i}^2+r_{y_i}^2+s_i\ge\varepsilon^2$, y el costo instantáneo pasa a ser
 	
@@ -178,7 +178,7 @@
 	\end{exampleblock}
 
 	{\def\marginimagetop{-2}
-		\insertimage{multiproyectil/trayectorias_N8.png}{width=1.1\colwidth}{Trayectorias de 8 proyectiles con condición de llegada simultanea}
+		\insertimage{multiproyectil/trayectorias_N8.png}{width=\colwidth}{Trayectorias de 8 proyectiles con tiempo final común y penalización de llegadas anticipadas.}
 	}
 
 \end{block}
