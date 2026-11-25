@@ -1,5 +1,7 @@
 # Modelamiento Lineal
 
+## Dinámica
+
 Para trabajar con un sistema lineal, consideraremos $a_{T}=0$. En dicho caso, del sistema general se deduce que
 
 $$
@@ -45,7 +47,62 @@ $$
 \frac{dz}{dt}=\underbrace{ \begin{pmatrix}0&1 \\  0&0 \end{pmatrix} }_{ A }z+\underbrace{ \begin{pmatrix}0 \\  -1\end{pmatrix} }_{ B }u,\qquad z(0)=\begin{pmatrix}r_{y,0} \\  v_{y,0}\end{pmatrix}.
 $$
 
-### Resultado Analítico
+## Controlabilidad
+
+Dada esta dinámica para nuestro problema es sencillo ver que la matriz de Kalman está dada por
+
+$$
+K=\left[B | AB \right] = \begin{pmatrix}0&-1 \\  -1&0 \end{pmatrix}
+$$
+
+Matriz claramente invertible por lo que el problema es controlable, que en nuestro, viendo las equivalencias de controlabilidad, quiere decir que para todo punto objetivo existe un control que puede llevarnos a ese punto en un tiempo $t_f$ (ya que controlable $\implies$ controlable a tiempo $t_f$)
+
+
+## Observabilidad
+
+Podemos ver que nuestro sistema reducido está definido por una proyección del sistema original dada por 
+
+$$
+z=Px
+$$
+Donde $P$ se define como:
+
+$$
+P = \begin{pmatrix}0&1&0&0 \\  0&0&0&1 \end{pmatrix}
+$$
+
+En este sentido podemos hacernos la pregunta de si tener solamente el sistema reducido nos impide recuperar la información origninal, tenemos por nuestras asunciones que la posición y velovidad en $x$ son conocidas para todo timepo pero analizarlo de forma puede ayudar a tener un mejor entendimiento del problema en general.
+En este caso viendo la matriz de oservabilidad $\mathcal{O}$ tenemos que
+
+$$
+\mathcal{O} = \begin{pmatrix}P \\  PA_{orig} \\  PA_{orig}^2 \\  PA_{orig}^3 \end{pmatrix} = \begin{pmatrix}0&1&0&0 \\  0&0&0&1 \\ 0&0&0&1 \\  0&0&0&0 \\ 0&0&0&0 \\  0&0&0&0 \\ 0&0&0&0 \\  0&0&0&0\end{pmatrix}
+$$
+
+Que según podemos ver, al tener dos columnas identicamente $0$ tiene rango $2<4$ por lo que el sistema no es observable. Esto quiere decir que nuestra suposición sobre la cinemática en el eje $x$ es absolutamente necesaria para entender a cabalidad el movimiento del misil, en este sentido, si es que por algún motivo (como los que se ven en las secciones siguientes) no podemos asumir este tipo de movimiento pese a tener angulos pequeños, no se conocería a cabalidad el estado del sistema en algún punto arbitrario. 
+
+## Estabilidad 
+
+Según su definición se dirá que el sistema es estabilizable por feedback lineal si es que existe $K\in \mathbb{R}^{m\times n}$ tal que $A+BK$ es _Hurwitz_.
+Notemos que si es que $K=\begin{pmatrix}k_1&k_2\end{pmatrix}$
+
+$$
+A+BK = \begin{pmatrix}0&1 \\  0&0 \end{pmatrix} + \begin{pmatrix}0 \\  -1\end{pmatrix}\begin{pmatrix}k_1&k_2\end{pmatrix}=\begin{pmatrix}0&1\\-k_1&-k_2\end{pmatrix}
+$$
+
+Y los valores propios de esta matriz están dados por
+
+$$
+\det\left(\begin{pmatrix}0&1\\-k_1&-k_2\end{pmatrix}-\lambda I\right) = \det \begin{pmatrix}-\lambda&1\\-k_1&-k_2-\lambda\end{pmatrix} = \lambda (k_2+\lambda)+k_1 \stackrel{!}{=} 0
+$$
+Lo que nos da que los valores propios son
+
+$$
+\lambda = \frac{-k_2\pm \sqrt{k_2^2-4k_1}}{2}
+$$
+
+Con lo que si es que tomamos $k_1 = 6 $ y $k_2 = 3$ tenemos que la parte real de ambos valores propios es $-3/2$ con lo que se concluye que el sistema es estabilizable por un feedback lineal.
+
+## PLC
 
 Ahora definimos la función de costo de nuestro PLC de la forma
 
