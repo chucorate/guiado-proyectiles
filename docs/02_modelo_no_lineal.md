@@ -109,17 +109,16 @@ $$
 \mathcal T=\{x=(r_x,r_y,\theta_M)\in\mathbb R^3:r_x^2+r_y^2\leq\varepsilon^2\}.
 $$
 
-
 De esta forma, podemos estudiar la intercepción mediante la condición terminal $R(t_f)=\varepsilon$, suponiendo $R(0)>\varepsilon$.
 
 ### Problema de Bolza a tiempo final libre
 
-Consideramos el sistema no lineal obtenido anteriormente, con estado $x=(r_x,r_y,\theta_M)$ y dinámica $\dot x=f(x,u)$. Para formular el problema de control óptimo, consideramos un conjunto compacto de controles $U=[-u_{\max},u_{\max}]$, con $u_{\max}>0$ la cota de la magnitud de la aceleración del proyectil.
+Consideramos el sistema no lineal obtenido anteriormente, con estado $x=(r_x,r_y,\theta_M)$ y dinámica $\dot x=f(x,u)$. Para formular el problema de control óptimo, consideramos un conjunto compacto de controles $U=[-u_{\max},u_{\max}]$, con $u_{\max}>0$ la cota de la magnitud del control.
 
 Para cada tiempo final $t_f>0$, consideramos controles $u\in L^\infty([0,t_f],U)$ cuya trayectoria existe en $[0,t_f]$. Las condiciones iniciales se obtienen de las posiciones y la velocidad inicial del proyectil mediante
 
 $$
-x(0)=x_0=\left(x_{T,0}^{(1)}-x_{M,0}^{(1)},\ x_{T,0}^{(2)}-x_{M,0}^{(2)},\ \operatorname{atan2}(v_{M,0}^{(2)},v_{M,0}^{(1)})\right).
+x(0)=x_0=\left(x_{T,0}^{(1)}-x_{M,0}^{(1)},\ x_{T,0}^{(2)}-x_{M,0}^{(2)},\ \mathrm{atan2}(v_{M,0}^{(2)},v_{M,0}^{(1)})\right).
 $$
 
 Para construir la función de costo, consideraremos una función $\ell$ que penaliza la magnitud del control y el tiempo para llegar al objetivo, mediante la expresión
@@ -141,14 +140,13 @@ $$
 h(x(t_f))=0,\qquad h(x):=r_x^2+r_y^2-\varepsilon^2,
 $$
 
-de modo que la dinámica enstá en una región donde $R>0$ y no aparece la singularidad en $R=0$. En la práctica agregaremos un pequeño delta $\delta>0$ al denominador para que las simulaciones numéricas sean más estables.
+de modo que la dinámica está en una región donde $R\geq\varepsilon>0$ y no aparece la singularidad en $R=0$.
 
 Así, obtenemos un problema de Bolza a tiempo final libre y costo terminal nulo, que en particular también es un problema de Lagrange. Se tiene además $e[x]:=(t_f,x(t_f))\in B$, con
 
 $$
 B=\{(t_f,x)\in[0,+\infty)\times\mathbb R^3:h(x)=0\}.
 $$
-
 
 ## Principio de Pontryagin
 
@@ -205,7 +203,7 @@ $$
 Al considerar la restricción $u\in[-u_{\max},u_{\max}]$, se concluye que
 
 $$
-u(t)=\operatorname{proj}_{[-u_{\max},u_{\max}]}\left(-\frac{p_\theta(t)c(x(t))}{\alpha V_M}\right).
+u(t)=\mathrm{proj}_{[-u_{\max},u_{\max}]}\left(-\frac{p_\theta(t)c(x(t))}{\alpha V_M}\right).
 $$
 
 ### Condiciones necesarias en $t_f$
@@ -226,12 +224,11 @@ Como $B$ está definido por $h(x_f)=0$ sin dependencia explícita del tiempo, la
   
 Tomando $dx=0$ y variando $dt_f$, se obtiene $\Theta(t_f)=0$. Por otro lado, al tomar $dt_f=0$, se deduce que $p(t_f)$ es perpendicular a todas las variaciones tangentes a la frontera del objetivo. Además, $\nabla h(x(t_f))=(2r_x(t_f),2r_y(t_f),0)\neq0$ para $\varepsilon>0$.
 
-Como el espacio normal a la frontera está generado por $\nabla h(x(t_f))$ y tiene dimensión 1 (dado que estamos en $\mathbb{R}^3$ y el espacio tangente es de dimensión 2 al tener una restricción $\langle \nabla h(x(t_f)), dx\rangle=0$ con $\nabla h(x(t_f))\neq0$), existe $\nu\in\mathbb R$ tal que $p(t_f)=\nu\nabla h(x(t_f))$. Así, llegamos a
+Como el espacio normal a la frontera está generado por $\nabla h(x(t_f))$ y tiene dimensión 1 (dado que estamos en $\mathbb{R}^3$ y el espacio tangente es de dimensión 2 al tener una restricción $\langle \nabla h(x(t_f)), dx\rangle=0$ con $\nabla h(x(t_f))\neq0$), existe $\nu\in\mathbb R$ tal que $p(t_f)=\nu\nabla h(x(t_f))$. Esto significa que $(p_x(t_f),p_y(t_f))$ es perpendicular a la tangente $(-r_y(t_f),r_x(t_f))$ de la circunferencia y que $p_\theta(t_f)=0$ por ser libre la orientación final. Así, llegamos a
 
 $$
 \begin{align}
-p_x(t_f)&=2\nu r_x(t_f),\\
-p_y(t_f)&=2\nu r_y(t_f),\\
+-r_y(t_f)p_x(t_f)+r_x(t_f)p_y(t_f)&=0,\\
 p_\theta(t_f)&=0,\\
 \Theta(t_f)&=0.
 \end{align}
@@ -240,7 +237,7 @@ $$
 Usando $p_\theta(t_f)=0$ en la expresión del control, tenemos que
 
 $$
-u(t_f)=\operatorname{proj}_{[-u_{\max},u_{\max}]}\left(-\frac{p_\theta(t_f)c(x(t_f))}{\alpha V_M}\right)
+u(t_f)=\mathrm{proj}_{[-u_{\max},u_{\max}]}\left(-\frac{p_\theta(t_f)c(x(t_f))}{\alpha V_M}\right)
 =0,
 $$
 
@@ -249,19 +246,33 @@ y reemplazando luego las condiciones de transversalidad en el prehamiltoniano, o
 $$
 \begin{align}
 0&=\Theta(t_f)=H(x(t_f),u(t_f),p(t_f))\\
-&=\frac{\alpha}{2}u(t_f)^2+\beta-V_M\left(p_x(t_f)\cos\theta_M(t_f)+p_y(t_f)\sin\theta_M(t_f)\right)
+&=\frac{\alpha}{2}u(t_f)^2+\beta\\
+&-V_M\left(p_x(t_f)\cos\theta_M(t_f)
++ p_y(t_f)\sin\theta_M(t_f)\right)
 +\frac{p_\theta(t_f)u(t_f)}{V_M}c(x(t_f))\\
 &=\beta-V_M\left(p_x(t_f)\cos\theta_M(t_f)+p_y(t_f)\sin\theta_M(t_f)\right)\\
-&=\beta-V_M\left(2\nu r_x(t_f)\cos\theta_M(t_f)+2\nu r_y(t_f)\sin\theta_M(t_f)\right)\\
-&=\beta-2\nu V_M\left(r_x(t_f)\cos\theta_M(t_f)+r_y(t_f)\sin\theta_M(t_f)\right)\\
-&=\beta-2\nu V_M \langle r(t_f), \hat{v}_{M}(t_f) \rangle.
+&=\beta-\langle p(t_f),\vec{v}_M(t_f)\rangle
 \end{align}
 $$
 
-Así,
+de donde se obtiene que $\langle p(t_f),\vec{v}_M(t_f)\rangle=\beta$.
+
+### Caso $p_0=0$
+
+Para este caso, el Hamiltoniano queda dado por
 
 $$
-\nu \langle \vec{r}(t_f), \vec{v}_M(t_f)\rangle = \frac{\beta}{2}.
+H=-V_M(p_x\cos\theta_M+p_y\sin\theta_M)+\frac{p_\theta u}{V_M}c(x).
+$$
+
+Definiendo $\varphi(t)=p_\theta c(x(t))/V_M$, la minimización respecto del control da
+
+$$
+u=\begin{cases}
+-u_{\max},&\varphi(t)>0,\\
+u_{\max},&\varphi(t)<0,\\
+\text{cualquier valor de }U,&\varphi(t)=0.
+\end{cases}
 $$
 
 ### Caso particular
@@ -289,10 +300,11 @@ $$
 Por último, para cualquier control admisible que alcance el objetivo se tiene
 
 $$
-J(u^*,t_f)=\frac{\alpha}{2}\int_0^{t_f}u^*(t)^2\,dt+\beta t_f = \beta t_f \geq \beta t_f^* =J(u^*,t_f^*)\implies J^* = \beta t_f^*.
+J(u,t_f)=\frac{\alpha}{2}\int_0^{t_f}u(t)^2\,dt+\beta t_f
+\geq\beta t_f\geq\frac{\beta(R_0-\varepsilon)}{V_M}.
 $$
 
-Por lo tanto, para este caso particular obtenemos la solución óptima
+El control $u^*=0$ alcanza ambas igualdades, pues no utiliza esfuerzo de control y llega siguiendo el segmento más corto al objetivo. Por lo tanto, para este caso particular obtenemos la solución óptima
 
 $$
 \begin{align}
@@ -302,3 +314,44 @@ t_f^*&=\frac{R_0-\varepsilon}{V_M},\\
 J^*&=\frac{\beta(R_0-\varepsilon)}{V_M}.
 \end{align}
 $$
+
+## Ecuación de Hamilton-Jacobi-Bellman
+
+Denotemos por $V(x)$ el menor costo de llegada al conjunto $\mathcal T$ desde el estado $x=(r_x,r_y,\theta_M)$. El costo se evalúa sin el término exponencial, de modo que $\lambda=0$ y el término $\lambda V(x)$ se anula. Aquí $\lambda$ denota la tasa de descuento, distinta del ángulo de la línea de mira usado en la dinámica. En los puntos exteriores donde $V$ es finita y diferenciable, se cumple
+
+$$
+0=\min_{u\in U}\left\{\ell(x,u)+\langle\nabla V(x),f(x,u)\rangle\right\},
+$$
+
+y además $x\in\mathcal T$ se tiene $V(x)=0$. Al sustituir la dinámica cartesiana y el costo $\ell$, obtenemos
+
+$$
+0=\beta-V_M\left(\cos\theta_M\,V_{r_x}+\sin\theta_M\,V_{r_y}\right)
++\min_{u\in U}\left\{\frac{\alpha}{2}u^2+\frac{c(x)}{V_M}V_{\theta_M}u\right\},
+\qquad R>\varepsilon.
+$$
+
+Aquí $c(x)$ es el mismo que se definió para la formulación de Pontryagin. Para evaluar el mínimo, escribimos $\varphi(t)=c(x(t))V_{\theta_M}/V_M$ y completamos el cuadrado,
+
+$$
+\frac{\alpha}{2}u^2+\varphi(t)u
+=\frac{\alpha}{2}\left(u+\frac{\varphi(t)}{\alpha}\right)^2-\frac{\varphi(t)^2}{2\alpha}.
+$$
+
+Si $|\varphi(t)|\leq\alpha u_{\max}$, el cuadrado puede anularse dentro de $U$. Si $|\varphi(t)|>\alpha u_{\max}$, el mínimo se alcanza en un extremo del intervalo. Sustituyendo el valor mínimo en cada caso, la ecuación queda
+
+$$
+0=\beta-V_M\left(\cos\theta_M\,V_{r_x}+\sin\theta_M\,V_{r_y}\right)
++\begin{cases}
+-\dfrac{\varphi(t)^2}{2\alpha}, & |\varphi(t)|\leq\alpha u_{\max},\\[6pt]
+\dfrac{\alpha}{2}u_{\max}^2-u_{\max}|\varphi(t)|, & |\varphi(t)|>\alpha u_{\max}.
+\end{cases}
+$$
+
+Por lo tanto, como $\alpha>0$, la expresión que minimizamos es estrictamente convexa en el control, por lo que el minimizador es único en $U$ y está dada por
+
+$$
+u(t)=\mathrm{proj}_{[-u_{\max},u_{\max}]}\left(-\frac{V_{\theta_M}c(x(t))}{\alpha V_M}\right),
+$$
+
+lo cual, junto al hecho que $V(x)=0$ cuando se llega a $\mathcal{T}$, se tiene que la forma del control es equivalente a la entregada por Pontryagin en el caso $p_0=1$, salvo que ahora depende de la función valor en lugar del coestado.
