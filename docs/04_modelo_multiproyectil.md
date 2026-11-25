@@ -1,4 +1,4 @@
-    ## Extensión general a múltiples proyectiles
+## Extensión general a múltiples proyectiles
 
 La extensión está basada en el [planteamiento general](/docs/00_modelamiento.md). Consideremos ahora un sistema compuesto por $N$ proyectiles $M_i$, con $i\in I:=\{1,\ldots,N\}$, y un único objetivo $T$. Supondremos que el objetivo sigue una trayectoria independiente de los proyectiles y que estos no interactúan directamente entre sí.
 
@@ -28,7 +28,7 @@ $$
 \end{align}
 $$
 
-Aquí, denotamos 
+Aquí, denotamos
 
 $$
 \hat r_i=\frac{\vec r_i}{\lVert\vec r_i\rVert},\qquad
@@ -203,3 +203,40 @@ J(w,t_f):=\int_0^{t_f}\left(\beta+\frac{\alpha}{2}\sum_{i\in I}u_i(t)^2+\gamma\s
 $$
 
 sujeto a la dinámica no lineal $\dot x=f(x,u)$, la condición inicial $x(0)=x_0$, las condiciones terminales $h_i(x(t_f))\leq0$ y las restricciones de trayectoria $r_{x_i}(t)^2+r_{y_i}(t)^2+s_i(t)\geq\varepsilon^2$ para todo $i\in I$.
+
+### Solución en forma cerrada de Jeon, Lee y Tahk (2006)
+
+Jeon, Lee y Tahk consideran el movimiento plano de cada proyectil $M_i$ con rapidez constante $V=V_{M_i}$. El objetivo es un punto fijo, la orientación final es libre y el tiempo de llegada $t_d$ está prescrito y es común a todos los proyectiles. [Jeon, Lee y Tahk (2006), secciones II–IV](https://doi.org/10.1109/TCST.2005.863655).
+
+El problema lo modelan de la forma
+
+$$
+\begin{align}
+\dot{X} &= V\cos\theta, \qquad X(0)=X_0,\quad X(t_d)=X_f, \\
+\dot{Y} &= V\sin\theta, \qquad Y(0)=Y_0,\quad Y(t_d)=Y_f, \\
+\dot{\theta} &= \frac{a}{V} = \frac{a_B + a_F}{V}, \qquad \theta(0)=\theta_0.
+\end{align}
+$$
+
+Para obtener una solución analítica, los autores adimensionalizan las variables mediante $t_d$ y $V$,
+
+$$
+\tau = \frac{t}{t_d}, \qquad x = \frac{X}{V t_d}, \qquad y = \frac{Y}{V t_d}, \qquad u_B = \frac{a_B}{V/t_d}, \qquad u_F = \frac{a_F}{V/t_d}.
+$$
+
+Para cada proyectil, toman la coordenada longitudinal adimensional $x$ como variable independiente. Denotemos por $y$ la posición transversal adimensional y por $\theta$ el ángulo de rumbo respecto del eje longitudinal. Bajo la aproximación de ángulos pequeños, la dinámica de estas dos variables queda dada por
+
+$$
+\frac{dz}{dx}=\begin{pmatrix}0&1\\0&0\end{pmatrix}z+\begin{pmatrix}0\\1\end{pmatrix}(u_B+u_F),\qquad
+z=\begin{pmatrix}y\\\theta\end{pmatrix},
+$$
+
+donde $u_B$ es la componente del control  asociada al error de posición final y $u_F$ es la componente adicional asociada al tiempo de llegada prescrito. Sus correspondientes aceleraciones físicas se denotan por $a_B$ y $a_F$.
+
+A partir de esta dinámica y de una aproximación de segundo orden de la longitud de la trayectoria restante, los autores expresan la aceleración normal como
+
+$$
+a = a_B + a_F = N V \dot{\lambda}\left(\frac{3}{2} - \frac{1}{2}\sqrt{1 + \frac{240\,V^5}{(N V \dot{\lambda})^2 R_{\mathrm{go}}^3}\epsilon_T}\right),
+$$
+
+donde $N$ es la constante de navegación, $\lambda$ es la LOS, $R_{\mathrm{go}}$ es la distancia al objetivo y $\epsilon_T$ es la diferencia entre el tiempo restante prescrito $\bar{t}_{\mathrm{go}}$ y el estimado $\hat{t}_{\mathrm{go}}$.

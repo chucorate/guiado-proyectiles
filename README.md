@@ -39,14 +39,15 @@ Para detalles sobre el modelamiento, ver `docs/`.
 - [x] Obtener modelamiento del problema general.
 - [x] Programar el caso lineal con un proyectil y target.
 - [x] Programar el caso no lineal con un proyectil y target.
-- [ ] Estudiar la controlabilidad, observabilidad y estabilidad de los problemas.
+- [x] Estudiar la controlabilidad, observabilidad y estabilidad de los problemas.
 - [ ] Realizar simulaciones, comparando distintos métodos numéricos.
 - [ ] Estudiar la aplicabilidad de HJB.
 - [x] Programar el caso con 2 proyectiles.
 - [x] Programar el caso con $N$ proyectiles.
-- [ ] Investigar sobre posibles soluciones analíticas.
+- [x] Investigar sobre posibles soluciones analíticas.
 
 # Referencias
+
 Arita, S., & Ueno, S. (2013,). *Optimal Feedback Guidance for Nonlinear Missile Model with Impact Time and Angle Constraints*. American Institute of Aeronautics, Astronautics. [https://doi.org/10.2514/6.2013-4785](https://doi.org/10.2514/6.2013-4785)
 
 Jeon, I.-S., Lee, J.-I., & Tahk, M.-J. (2006). Impact-time-control guidance law for anti-ship missiles. *IEEE Transactions on Control Systems Technology*, *14*(2), 260–266. [https://doi.org/10.1109/TCST.2005.863655](https://doi.org/10.1109/TCST.2005.863655)
