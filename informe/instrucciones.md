@@ -1,0 +1,5 @@
+Les recordamos que la entrega final del curso consistirá en un informe escrito sobre el proyecto que han desarrollado a lo largo del semestre, junto con los códigos utilizados para su desarrollo.
+
+El informe deberá incluir todo el trabajo realizado en el proyecto durante el semestre, contemplando tanto los desarrollos teóricos como los resultados numéricos obtenidos. La idea es que puedan reunir y organizar en un único documento todo lo que han trabajado durante el curso, incorporando también las posibles observaciones y comentarios recibidos durante la sesión de pósters. Este tendrá un limite de 15 planas.
+
+Les recomendamos ir preparando el informe a partir del material que ya tienen desarrollado, de modo que puedan dedicar las últimas semanas a completar el trabajo y realizar los ajustes necesarios.

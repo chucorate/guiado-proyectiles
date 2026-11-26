@@ -1,0 +1,63 @@
+% Template Informe LaTeX, Pablo Pizarro R., versión 8.4.0, licencia MIT.
+\PassOptionsToPackage{sort&compress}{natbib}
+\documentclass[spanish,letterpaper,oneside]{article}
+\usepackage{amsmath}
+\usepackage[hidelinks,pdfencoding=auto,psdextra]{hyperref}
+\usepackage{bookmark}
+% Bookmark requiere un booleano literal en versiones recientes de LaTeX.
+\makeatletter
+\let\avancesbookmarksopen\KV@Hyp@bookmarksopen
+\def\KV@Hyp@bookmarksopen#1{%
+    \edef\avancesopenvalue{#1}%
+    \expandafter\avancesbookmarksopen\expandafter{\avancesopenvalue}%
+}
+\makeatother
+
+\def\documenttitle {Control Óptimo en el Guiado de Proyectiles}
+\def\documentsubtitle {Informe de proyecto}
+\def\documentsubject {Informe de proyecto}
+\def\documentauthor {Santiago Avalloni y Matías Olate}
+\def\coursename {Control Óptimo: Teoría y Laboratorio}
+\def\coursecode {MA4703}
+\def\universityname {Universidad de Chile}
+\def\universityfaculty {Facultad de Ciencias Físicas y Matemáticas}
+\def\universitydepartment {Departamento de Ingeniería Matemática}
+\def\universitydepartmentimage {departamentos/dim.pdf}
+\def\universitydepartmentimagecfg {height=1.57cm}
+\def\universitylocation {Santiago de Chile}
+\def\authortable {
+    \begin{tabular}{ll}
+        Integrantes: & \begin{tabular}[t]{l}Santiago Avalloni\\Matías Olate\end{tabular}\\
+        Profesor: & Héctor Ramírez\\
+        Auxiliares: & \begin{tabular}[t]{l}Diego Morales\\Hernán Torres\\Fraick Reyes\end{tabular}\\
+        \multicolumn{2}{l}{\coursecode{} -- \coursename}\\
+        \multicolumn{2}{l}{\universitylocation}
+    \end{tabular}
+}
+
+\input{template}
+\graphicspath{{figuras/}}
+
+
+\usepackage{environ}
+\setlength{\emergencystretch}{2em}
+\makeatletter
+\let\filastabla\@@input
+\makeatother
+% Ajuste de ancho de las expresiones copiadas desde docs/.
+\NewEnviron{bloquematematico}{%
+  \begin{equation*}
+    \begin{adjustbox}{max width=\linewidth}
+      $\displaystyle\BODY$
+    \end{adjustbox}
+  \end{equation*}}
+\hypersetup{pdflang={es-CL}}
+
+\begin{document}
+\setlength{\parindent}{0pt}
+\templatePortrait
+\templatePagecfg
+\templateIndex
+\templateFinalcfg
+\input{contenido}
+\end{document}

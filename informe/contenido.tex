@@ -1,0 +1,18 @@
+\section{Introducción}
+
+El guiado de proyectiles es un problema central en ingeniería y defensa.
+En este trabajo se aborda desde la \textbf{teoría de control óptimo},
+lo que permite derivar las leyes de guiado clásicas y extenderlas a escenarios
+más ricos: objetivos móviles, ángulos iniciales arbitrarios y coordinación
+de múltiples proyectiles.
+
+\textbf{Herramientas}: Principio de Pontryagin, ecuaciones de Riccati,
+discretización directa con \texttt{OptimalControl.jl} e Ipopt y simulación con \texttt{DifferentialEquations.jl}.
+
+\input{modelos}
+\clearpage
+\input{resultados}
+
+\clearpage
+\nocite{*}
+\bibliography{library}
